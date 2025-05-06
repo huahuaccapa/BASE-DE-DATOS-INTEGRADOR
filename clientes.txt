@@ -1,0 +1,38 @@
+
+CREATE DATABASE multiservicios;
+USE multiservicios;
+
+-- Tabla de usuarios (para autenticación)
+CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(100) NOT NULL,  -- Debe almacenarse hasheada
+    rol ENUM('ADMIN', 'EMPLEADO') NOT NULL,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tabla simplificada de clientes (asegurarse que los nombres coincidan)
+CREATE TABLE clientes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    apellidos VARCHAR(100),
+    email VARCHAR(100) UNIQUE NOT NULL,
+    telefono VARCHAR(20),
+    identificacion VARCHAR(20) COMMENT 'RUC o DNI',
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Datos iniciales para usuarios
+INSERT INTO usuarios (username, password, rol) VALUES 
+('admin', '$2a$10$N9qo8uLOickgx2ZMRZoMy.MrYrK/5gD0UPPJZJK4WX7GFxDGYsQ7O', 'ADMIN'), -- password: admin123
+('empleado1', '$2a$10$N9qo8uLOickgx2ZMRZoMy.MrYrK/5gD0UPPJZJK4WX7GFxDGYsQ7O', 'EMPLEADO');
+
+-- Datos de ejemplo para clientes
+INSERT INTO clientes (nombre, apellidos, email, telefono, identificacion) VALUES
+('Juan', 'Pérez López', 'juan.perez@example.com', '987654321', '12345678'),
+('María', 'Gómez Sánchez', 'maria.gomez@example.com', '912345678', '87654321'),
+('Carlos', 'Martínez Ruiz', 'carlos.martinez@example.com', '923456789', '56781234');
+
+-- Consultas para verificar
+SELECT * FROM usuarios;
+SELECT * FROM clientes;
